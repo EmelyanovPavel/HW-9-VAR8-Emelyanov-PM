@@ -4,7 +4,13 @@
 #include <algorithm>
 #include <string>
 
-//task 1.
+//Task 1.
+// Write a template vector sorting function (std::vector). The
+// sorting method for tasks 1 and 2 is selected according to the rule (option number)%3:
+// 0 – bubble sorting
+// 1 – sorting by choice
+// 2 – sorting by inserts
+//
 //Bubble sorting function
 template<typename T>
 void bubbleSort(std::vector<T>& vec) {
