@@ -1,4 +1,3 @@
-//Topic 9. Organization of file input/output
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -92,8 +91,8 @@ void task1() {
 }
 //Task 2. 
 //In the file input.txt contains information about a group of students in the format :
-//— number of students;
-//— the record of each student in the group contains the following information : last name,
+//â€” number of students;
+//â€” the record of each student in the group contains the following information : last name,
 //first name, patronymic, date of birth, grades in five subjects.
 //Save information about students in structures.
 //Overwrite file data input.txt to the file output.txt by sorting them :
