@@ -4,20 +4,25 @@
 #include <algorithm>
 #include <string>
 
-//Task 1.
-// Write a template vector sorting function (std::vector). The
-// sorting method for tasks 1 and 2 is selected according to the rule (option number)%3:
-// 0 – bubble sorting
-// 1 – sorting by choice
-// 2 – sorting by inserts
-//
+//task 1.
+//Write a template vector sorting function (std::vector). The sorting method for tasks 1 
+//and 2 is selected according to the rule(option number) % 3:
+//0 – bubble sorting
+//1 – sorting by choice
+//2 – sorting by inserts
+
 //Bubble sorting function
 template<typename T>
-void bubbleSort(std::vector<T>& vec) {
+void bubbleSort(std::vector<T>& vec) 
+{
     int n = vec.size();
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = 0; j < n - i - 1; j++) {
-            if (vec[j] > vec[j + 1]) {
+
+    for (int i = 0; i < n - 1; i++) 
+    {
+        for (int j = 0; j < n - i - 1; j++) 
+        {
+            if (vec[j] > vec[j + 1]) 
+            {
                 std::swap(vec[j], vec[j + 1]);
             }
         }
@@ -26,12 +31,17 @@ void bubbleSort(std::vector<T>& vec) {
 
 //A function for sorting by selection
 template<typename T>
-void selectionSort(std::vector<T>& vec) {
+void selectionSort(std::vector<T>& vec) 
+{
     int n = vec.size();
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n; i++) 
+    {
         int min_idx = i;
-        for (int j = i + 1; j < n; j++) {
-            if (vec[j] < vec[min_idx]) {
+
+        for (int j = i + 1; j < n; j++) 
+        {
+            if (vec[j] < vec[min_idx]) 
+            {
                 min_idx = j;
             }
         }
@@ -41,34 +51,44 @@ void selectionSort(std::vector<T>& vec) {
 
 //Function for sorting by inserts
 template<typename T>
-void insertionSort(std::vector<T>& vec) {
+void insertionSort(std::vector<T>& vec) 
+{
+
     int n = vec.size();
-    for (int i = 1; i < n; i++) {
+    for (int i = 1; i < n; i++) 
+    {
         T key = vec[i];
         int j = i - 1;
 
-        while (j >= 0 && vec[j] > key) {
+        while (j >= 0 && vec[j] > key) 
+        {
             vec[j + 1] = vec[j];
             j--;
         }
         vec[j + 1] = key;
     }
+
 }
 
 //Template sorting function with method selection
 template<typename T>
-void sortVector(std::vector<T>& vec, int variant) {
+void sortVector(std::vector<T>& vec, int variant) 
+{
 
-    switch (variant % 3) {
+    switch (variant % 3) 
+    {
     case 0:
         bubbleSort(vec);
         break;
+
     case 1:
         selectionSort(vec);
         break;
+
     case 2:
         insertionSort(vec);
         break;
+
     default:
         std::cerr << "Error..." << std::endl;
         break;
@@ -76,12 +96,14 @@ void sortVector(std::vector<T>& vec, int variant) {
 }
 
 // Using example
-void task1() {
+void task1() 
+{
     std::vector<int> numbers = { 5, 2, 8, 1, 9, 3 };
     int variant = 0; // Example of an option number
 
     std::cout << "Source array: ";
-    for (int num : numbers) {
+    for (int num : numbers) 
+    {
         std::cout << num << " ";
     }
     std::cout << std::endl;
@@ -91,10 +113,12 @@ void task1() {
     std::cout << "Sorted array: ";
 
     //outputting the sorted array
-    for (int num : numbers) {
+    for (int num : numbers)
+    {
         std::cout << num << " ";
     }
 }
+
 //Task 2. 
 //In the file input.txt contains information about a group of students in the format :
 //— number of students;
@@ -114,11 +138,13 @@ struct Student {
 };
 
 //Function for comparing dates of birth
-bool compareByDate(const Student& a, const Student& b) {
+bool compareByDate(const Student& a, const Student& b) 
+{
     return a.birthDate < b.birthDate;
 }
 
-void task2() {
+void task2() 
+{
     //opening files
     std::ifstream in("input.txt");
     std::ofstream out("output.txt");
@@ -176,12 +202,12 @@ void task2() {
     // Closing files
     in.close();
     out.close();
-
     
 }
 
 int main()
 {
+
     task1();
     task2();
 
