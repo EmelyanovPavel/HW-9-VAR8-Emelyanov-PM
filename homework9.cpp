@@ -17,9 +17,9 @@ void bubbleSort(std::vector<T>& vec)
 {
     int n = vec.size();
 
-    for (int i = 0; i < n - 1; i++) 
+    for (size_t i = 0; i < n - 1; i++) 
     {
-        for (int j = 0; j < n - i - 1; j++) 
+        for (size_t j = 0; j < n - i - 1; j++) 
         {
             if (vec[j] > vec[j + 1]) 
             {
@@ -34,11 +34,11 @@ template<typename T>
 void selectionSort(std::vector<T>& vec) 
 {
     int n = vec.size();
-    for (int i = 0; i < n; i++) 
+    for (size_t i = 0; i < n; i++)
     {
         int min_idx = i;
 
-        for (int j = i + 1; j < n; j++) 
+        for (size_t j = i + 1; j < n; j++)
         {
             if (vec[j] < vec[min_idx]) 
             {
@@ -55,7 +55,7 @@ void insertionSort(std::vector<T>& vec)
 {
 
     int n = vec.size();
-    for (int i = 1; i < n; i++) 
+    for (size_t i = 1; i < n; i++)
     {
         T key = vec[i];
         int j = i - 1;
@@ -90,7 +90,7 @@ void sortVector(std::vector<T>& vec, int variant)
         break;
 
     default:
-        std::cerr << "Error..." << std::endl;
+        std::cerr << "Error...";
         break;
     }
 }
@@ -99,7 +99,7 @@ void sortVector(std::vector<T>& vec, int variant)
 void task1() 
 {
     std::vector<int> numbers = { 5, 2, 8, 1, 9, 3 };
-    int variant = 0; // Example of an option number
+    int variant = 2; // Example of an option number
 
     std::cout << "Source array: ";
     for (int num : numbers) 
@@ -117,6 +117,8 @@ void task1()
     {
         std::cout << num << " ";
     }
+    
+    std::cout << std::endl;
 }
 
 //Task 2. 
@@ -126,10 +128,12 @@ void task1()
 //first name, patronymic, date of birth, grades in five subjects.
 //Save information about students in structures.
 //Overwrite file data input.txt to the file output.txt by sorting them :
+// 
 //8)by date of birth in ascending order.
 
 //Structure for storing student data
-struct Student {
+struct Student 
+{
     std::string surname;    // surname
     std::string name;      // name
     std::string patronymic;// middle name
@@ -138,7 +142,7 @@ struct Student {
 };
 
 //Function for comparing dates of birth
-bool compareByDate(const Student& a, const Student& b) 
+bool isMore(const Student& a, const Student& b) 
 {
     return a.birthDate < b.birthDate;
 }
@@ -182,7 +186,7 @@ void task2()
     }
 
     // Sorting students by date of birth
-    std::sort(students.begin(), students.end(), compareByDate);
+    std::sort(students.begin(), students.end(), isMore);
 
     // Writing the sorted data to output.txt
     out << studentCount << std::endl;
