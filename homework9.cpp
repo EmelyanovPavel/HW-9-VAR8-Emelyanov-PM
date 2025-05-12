@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <vector>
 #include <algorithm>
 #include <string>
@@ -124,89 +125,158 @@ void task1()
 //Task 2. 
 //In the file input.txt contains information about a group of students in the format :
 //— number of students;
-//— the record of each student in the group contains the following information : last name,
-//first name, patronymic, date of birth, grades in five subjects.
+//— the record of each student in the group contains the following information : last name, first name, patronymic, date of birth, grades in five subjects.
 //Save information about students in structures.
 //Overwrite file data input.txt to the file output.txt by sorting them :
-// 
 //8)by date of birth in ascending order.
 
-//Structure for storing student data
+// Structure for storing student data
 struct Student 
 {
-    std::string surname;    // surname
-    std::string name;      // name
-    std::string patronymic;// middle name
-    std::string birthDate; // Birth date (format - dd.mm.yyyy)
-    std::vector<int> grades;// Grades in 5 subjects
+    std::string lastName;
+    std::string firstName;
+    std::string patronymic;
+    std::string birthDate;
+    std::vector<int> grades;
 };
 
-//Function for comparing dates of birth
-bool isMore(const Student& a, const Student& b) 
+// Function for comparing dates of birth
+bool isMore(const std::string& date1, const std::string& date2) 
 {
-    return a.birthDate < b.birthDate;
+    // Breaking the date into parts
+    std::istringstream ss1(date1);
+    std::istringstream ss2(date2);
+
+    int day1, month1, year1;
+    int day2, month2, year2;
+    char dash;
+
+    ss1 >> year1 >> dash >> month1 >> dash >> day1;
+    ss2 >> year2 >> dash >> month2 >> dash >> day2;
+
+    // Comparing dates
+    if (year1 != year2) 
+    {
+        return year1 < year2;
+    }
+
+    if (month1 != month2) 
+    {
+        return month1 < month2;
+    }
+    
+    return day1 < day2;
+}
+
+// Function for bubble sorting
+void bubbleSort(std::vector<Student>& students) 
+{
+
+    for (size_t i = 0; i < students.size(); i++) 
+    {
+        for (size_t j = 0; j < students.size() - i - 1; j++) 
+        {
+
+            if (!isMore(students[j].birthDate, students[j + 1].birthDate)) 
+            {
+                std::swap(students[j], students[j + 1]);
+            }
+        }
+    }
+}
+
+// Function for sorting by selection
+void selectionSort(std::vector<Student>& students) 
+{
+    for (size_t i = 0; i < students.size(); i++) 
+    {
+        size_t min_idx = i;
+
+        for (size_t j = i + 1; j < students.size(); j++) 
+        {
+
+            if (isMore(students[j].birthDate, students[min_idx].birthDate)) 
+            {
+                min_idx = j;
+            }
+        }
+        std::swap(students[i], students[min_idx]);
+    }
+}
+
+// Function for sorting by inserts
+void insertionSort(std::vector<Student>& students) 
+{
+    for (size_t i = 1; i < students.size(); i++) 
+    {
+        Student key = students[i];
+        size_t j = i - 1;
+
+        while (j >= 0 && !isMore(students[j].birthDate, key.birthDate)) 
+        {
+            students[j + 1] = students[j];
+            j--;
+        }
+        students[j + 1] = key;
+    }
 }
 
 void task2() 
 {
-    //opening files
     std::ifstream in("input.txt");
     std::ofstream out("output.txt");
 
-    if (!in.is_open()) {
-        std::cout << "Error opening input.txt file" << std::endl;
-        
+    if (!in.is_open()) 
+    {
+        std::cerr << "File opening error input.txt!\n";
     }
 
-    if (!out.is_open()) {
-        std::cout << "Error opening output.txt file" << std::endl;
-       
-    }
+    int count;
+    in >> count;
+    in.ignore(); //Skipping the newline character
 
-    //Read a students number
-    int studentCount;
-    in >> studentCount;
+    std::vector<Student> students(count);
 
-    // Creating a vector for storing students
-    std::vector<Student> students(studentCount);
+    //reading the data of all students
+    for (int i = 0; i < count; i++) 
+    {
+        std::getline(in, students[i].lastName, ';');
+        std::getline(in, students[i].firstName, ';');
+        std::getline(in, students[i].patronymic, ';');
+        std::getline(in, students[i].birthDate, ';');
 
-    //  read the data of all students
-    for (int i = 0; i < studentCount; i++) {
-        in >> students[i].surname;
-        in >> students[i].name;
-        in >> students[i].patronymic;
-        in >> students[i].birthDate;
-
-        // read a grades
-        for (int j = 0; j < 5; j++) {
+        for (int j = 0; j < 5; j++) 
+        {
             int grade;
             in >> grade;
+
             students[i].grades.push_back(grade);
+
+            if (j < 4) 
+            {
+                in.ignore(); //Skipping the separators
+            }
         }
+        in.ignore(); //Skipping the newline character
     }
 
-    // Sorting students by date of birth
-    std::sort(students.begin(), students.end(), isMore);
+    //Choosing a sorting method
+    int variant = 2; //Option number
 
-    // Writing the sorted data to output.txt
-    out << studentCount << std::endl;
+    switch (variant % 3) 
+    { 
+    case 0: 
+        bubbleSort(students); 
+        break;
 
-    for (const auto& student : students) {
-        out << student.surname << " ";
-        out << student.name << " ";
-        out << student.patronymic << " ";
-        out << student.birthDate << " ";
+    case 1: 
+        selectionSort(students); 
+        break;
 
-        for (int grade : student.grades) {
-            out << grade << " ";
-        }
-        out << std::endl;
+    case 2: 
+        insertionSort(students); 
+        break;
     }
-
-    // Closing files
-    in.close();
-    out.close();
-    
 }
 
 int main()
