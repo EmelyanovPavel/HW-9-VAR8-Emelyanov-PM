@@ -231,19 +231,24 @@ void task2()
         std::cerr << "File opening error input.txt!\n";
     }
 
-    int count;
+    size_t count;
     in >> count;
     in.ignore(); //Skipping the newline character
-
+    
+    //Checking for an invalid value
+    if (count == static_cast<size_t>(-1)) {
+        std::cerr << "Error: unacceptable number of students!!!\n";
+    }
+    
     std::vector<Student> students(count);
 
     //reading the data of all students
     for (int i = 0; i < count; i++) 
     {
-        std::getline(in, students[i].lastName, ';');
-        std::getline(in, students[i].firstName, ';');
-        std::getline(in, students[i].patronymic, ';');
-        std::getline(in, students[i].birthDate, ';');
+        out << student.lastName << " ";
+        out << student.firstName << " ";
+        out << student.patronymic << " ";
+        out << student.birthDate << " ";
 
         for (int j = 0; j < 5; j++) 
         {
@@ -277,6 +282,26 @@ void task2()
         insertionSort(students); 
         break;
     }
+
+    // Writing sorted data
+    out << count << "\n";
+    
+    for (const auto& student : students) {
+        out << student.lastName << ";";
+        out << student.firstName << ";";
+        out << student.patronymic << ";";
+        out << student.birthDate << ";";
+
+        for (size_t j = 0; j < student.grades.size(); j++) {
+            out << student.grades[j];
+            if (j < 4) {
+                out << " ";
+            }
+        }
+        out << "\n";
+    }
+    in.close();
+    out.close();
 }
 
 int main()
